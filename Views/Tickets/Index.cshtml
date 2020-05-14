@@ -1,0 +1,180 @@
+﻿@model IEnumerable<Bugaboo.Models.Ticket>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<div class="main-content">
+    <div class="container-fluid content-top-gap">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb my-breadcrumb">
+                <li class="breadcrumb-item"><a href="@Url.Action("Index", "Projects")">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Tickets</li>
+            </ol>
+        </nav>
+        <div class="welcome-msg pt-3 pb-4">
+            <h1>Hi <span class="text-primary"> @ViewData["FirstName"]</span>, Welcome back</h1>
+            <p>Very detailed & featured admin.</p>
+        </div>
+        <div class="card card_border py-2 mb-4">
+            <div class="card-body">
+                @*<table class="table">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => m.Project.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => m.TicketPriority.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.TicketStatus.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.TicketType.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.DeveloperId)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.SubmitterId)
+                        </th>
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Project.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TicketPriority.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TicketStatus.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TicketType.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DeveloperId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SubmitterId)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                            </td>
+                        </tr>
+                    }
+
+                </table>*@
+                <div class="row">
+                    <table id="tiTable" class="display">
+                        <thead>
+                            <tr>
+                                <th> @Html.DisplayNameFor(m => m.Project.Name)</th>
+                                <th> @Html.DisplayNameFor(m => m.ProjectManager)</th>
+                                <th>@Html.DisplayNameFor(m => m.TicketPriority.Name)</th>
+                                <th>@Html.DisplayNameFor(m => m.TicketStatus.Name)</th>
+                                <th>@Html.DisplayNameFor(m => m.TicketType.Name)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var ticket in Model)
+                            {
+                            <tr>
+                                <td>@Html.DisplayFor(m => ticket.Project.Name)</td>
+                                <td>@Html.DisplayFor(m => ticket.ProjectManager)</td>
+                                <td>@Html.DisplayFor(m => ticket.TicketPriority.Name)</td>
+                                <td>@Html.DisplayFor(m => ticket.TicketStatus.Name)</td>
+                                <td>@Html.DisplayFor(m => ticket.TicketType.Name)</td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { id = ticket.Id }) |
+                                    @Html.ActionLink("Details", "Details", new { id = ticket.Id }) |
+                                    @Html.ActionLink("Delete", "Delete", new { id = ticket.Id })
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function () {
+            scrollFunction()
+        };
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                document.getElementById("movetop").style.display = "block";
+            } else {
+                document.getElementById("movetop").style.display = "none";
+            }
+        }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }</script>
+    <!-- /move top -->
+    <!--DataTable-->
+
+    <script>
+        $(document).ready(function () {
+            var AssignmentTable = $("#tiTable").DataTable();
+
+            $("#tiTable tbody").on("click", "tr", function () {
+                var data = AssignmentTable.row(this).data();
+                alert("you clicked on a row" + data);
+            });
+        });
+    </script>
+
+    <script>
+        var closebtns = document.getElementsByClassName("close-grid");
+        var i;
+
+        for (i = 0; i < closebtns.length; i++) {
+            closebtns[i].addEventListener("click", function () {
+                this.parentElement.style.display = 'none';
+            });
+        }
+    </script>
+    <!-- //close script -->
+    <!-- disable body scroll when navbar is in active -->
+    <script>
+        $(function () {
+            $('.sidebar-menu-collapsed').click(function () {
+                $('body').toggleClass('noscroll');
+            })
+        });
+    </script>
+    <!-- disable body scroll when navbar is in active -->
+    <!-- loading-gif Js -->
+    @*<script src="assets/js/modernizr.js"></script>*@
+
+    <script>
+        $(window).load(function () {
+            // Animate loader off screen
+            $(".se-pre-con").fadeOut("slow");;
+        });
+    </script>
+    <!--// loading-gif Js -->
+    <!-- Bootstrap Core JavaScript -->
+    @*<script src="assets/js/bootstrap.min.js"></script>*@
+
+}

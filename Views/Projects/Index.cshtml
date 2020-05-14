@@ -1,0 +1,144 @@
+﻿@model IEnumerable<Bugaboo.Models.Project>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="main-content">
+
+    <div class="container-fluid content-top-gap">
+
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb my-breadcrumb">
+                <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Projects</li>
+            </ol>
+        </nav>
+        <div class="welcome-msg pt-3 pb-4">
+            <h1>Hi <span class="text-primary">@ViewData["FirstName"]</span>, Welcome back</h1>
+            <p>Very detailed & featured admin.</p>
+        </div>
+
+
+        <div class="card card_border py-2 mb-4">
+            <div class="card-body">
+                <div class="row">
+
+                </div>
+               
+                <div class="row">
+
+                    <table id="pcTable" class="display">
+                        <thead>
+                            <tr>
+
+                                <th>@Html.DisplayNameFor(model => model.Name)</th>
+
+                                <th> @Html.DisplayNameFor(model => model.Description)</th>
+
+                                <th> @Html.DisplayNameFor(model => model.ProjectId)</th>
+
+                                <th>@Html.DisplayNameFor(model => model.IsArchived)</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+
+                                    @Html.AntiForgeryToken()
+                                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                                    <td> @Html.DisplayFor(modelItem => item.Description)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.ProjectId)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.IsArchived)</td>
+                                    <td>@Html.ActionLink("Edit", "Edit", new { id = item.Id })</td>
+                                    <td> @Html.ActionLink("Details", "Details", new { id = item.Id })</td>
+                                    <td> @Html.ActionLink("Delete", "Delete", new { id = item.Id })</td>
+                                </tr>
+                            }
+                        </tbody>
+
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<button onclick="topFunction()" id="movetop" class="bg-primary" title="Go to top">
+    <span class="fa fa-angle-up"></span>
+</button>
+@section scripts{
+    <script>
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function () {
+            scrollFunction()
+        };
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                document.getElementById("movetop").style.display = "block";
+            } else {
+                document.getElementById("movetop").style.display = "none";
+            }
+        }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }</script>
+    <!-- /move top -->
+    <!--DataTable-->
+
+    <script>
+        $(document).ready(function () {
+            var AssignmentTable = $("#pcTable").DataTable();
+
+            $("#pcTable tbody").on("click", "tr", function () {
+                var data = AssignmentTable.row(this).data();
+                alert("you clicked on a row" + data);
+            });
+        });
+
+    </script>
+
+    <script>
+        var closebtns = document.getElementsByClassName("close-grid");
+        var i;
+
+        for (i = 0; i < closebtns.length; i++) {
+            closebtns[i].addEventListener("click", function () {
+                this.parentElement.style.display = 'none';
+            });
+        }
+    </script>
+    <!-- //close script -->
+    <!-- disable body scroll when navbar is in active -->
+    <script>
+        $(function () {
+            $('.sidebar-menu-collapsed').click(function () {
+                $('body').toggleClass('noscroll');
+            })
+        });
+    </script>
+    <!-- disable body scroll when navbar is in active -->
+    <!-- loading-gif Js -->
+    @*<script src="assets/js/modernizr.js"></script>*@
+
+    <script>
+        $(window).load(function () {
+            // Animate loader off screen
+            $(".se-pre-con").fadeOut("slow");;
+        });
+    </script>
+    <!--// loading-gif Js -->
+    <!-- Bootstrap Core JavaScript -->
+    @*<script src="assets/js/bootstrap.min.js"></script>*@
+
+}

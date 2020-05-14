@@ -1,0 +1,119 @@
+﻿
+@using Bugaboo.Models
+@model ExtendedRegisterViewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Bug-A-Boo</title>
+
+    <link href="~/Content/style-starter.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="logo">
+        <div class="row">
+            <div class="col-md-1">
+                <img src="~/Images/3dcubsm.png" width="50" height="50" />
+            </div>
+            <div class="col-md-9 text-center">
+                <h1><a href="index.html">Bug-a-boo</a></h1>
+            </div>
+        </div>
+    </div>
+
+    <!-- if logo is image enable this -->
+    <!-- image logo --
+    <div class="logo">
+      <a href="index.html">
+        <img src="image-path" alt="Your logo" title="Your logo" class="img-fluid" style="height:35px;" />
+      </a>
+    </div>
+    <!-- //image logo -->
+    @*<div class="logo-icon text-center">
+            <a href="index.html" title="logo"><img src="~/Images/logo.png" alt="logo-icon"> </a>
+        </div>*@
+    <!-- //logo end -->
+    <div>
+        <div class="menu-right">
+            <div class="navbar user-panel-top">
+
+                <h1>Login</h1>
+            </div>
+        </div>
+
+        <!-- forms 2 -->
+        <div class="card card_border py-2 mb-4">
+            <div class="card-body">
+                @using (@Html.BeginForm("Login", "Account", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <form action="#" method="post">
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="inputEmail4" class="input__label">Email</label>
+                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control input-style", placeholder = "Email" } })
+                            </div>
+
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="inputPassword4" class="input__label">Password</label>
+                                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control input-style", placeholder = "Password" } })
+                            </div>
+
+                        </div>
+                        <div class="form-row">
+                            <p>
+                                @Html.ActionLink("Forgot your password?", "ForgotPassword", "Account")
+                            </p>
+                        </div>
+                        <div class="form-row">
+                            <button type="submit" class="btn btn-primary btn-style mt-4" id="btnLogin">Login</button>
+                        </div>
+                        <div class="form-row">
+                            @Html.ActionLink("new user register here", "StartRegister", "Home")
+                        </div>
+                    </form>
+                }
+            </div>
+        </div>
+        <!-- //forms 2 -->
+    </div>
+    
+    @*@if (ViewBag.ShowAlert != null)
+    {
+    if (ViewBag.ShowAlert)
+    {
+<script>
+    Swal.fire({
+        title: 'Custom animation with Animate.css',
+        showClass: {
+            popup: 'animate__animated animate__fadeInDown'
+        },
+        hideClass: {
+            popup: 'animate__animated animate__fadeOutUp'
+        }
+    });
+
+
+</script>
+    }
+    else
+    {
+        <script>alert(" ShowAlert");</script>
+
+    }
+    }*@
+
+</body>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+}
+
+</html>

@@ -1,0 +1,312 @@
+﻿<!DOCTYPE html>
+@using Microsoft.AspNet.Identity;
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Bug-A-Boo</title>
+
+    @*<link href="~/Content/bootstrap.min1.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+        <link href="~/Content/animate.css" rel="stylesheet" />
+        <link href="~/Content/select2.min.css" rel="stylesheet" />
+        <link href="~/Content/perfect-scrollbar.css" rel="stylesheet" />
+        <link href="~/Content/util.css" rel="stylesheet" />
+        <link href="~/Content/main.css" rel="stylesheet" />*@
+        <link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <!-- Template CSS -->
+    @*<link rel="stylesheet" href="assets/css/style-starter.css">*@
+    <link href="~/Content/style-starter.css" rel="stylesheet" />
+    <!-- google fonts -->
+    <link href="//fonts.googleapis.com/css?family=Nunito:300,400,600,700,800,900&display=swap" rel="stylesheet">
+
+
+    @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body class="sidebar-menu-collapsed">
+    @*<div class="se-pre-con"></div>*@
+
+    <!-- sidebar menu start -->
+    <div class="sidebar-menu sticky-sidebar-menu">
+
+        <!-- logo start -->
+        <div class="logo">
+            <h1><a href="index.html">Bug-A-Boo</a></h1>
+        </div>
+        <!-- if logo is image enable this -->
+        <!-- image logo --
+        <div class="logo">
+          <a href="index.html">
+            <img src="image-path" alt="Your logo" title="Your logo" class="img-fluid" style="height:35px;" />
+          </a>
+        </div>
+        <!-- //image logo -->
+        @*<img src="~/Images/logo.png" />*@
+        <div class="logo-icon text-center">
+            <a href="index.html" title="logo"><img src="~/Images/logo.png" alt="logo-icon"> </a>
+        </div>
+        <!-- //logo end -->
+
+        <div class="sidebar-menu-inner">
+            
+            <!-- sidebar nav start -->
+            <ul class="nav nav-pills nav-stacked custom-nav">
+                @if (User.Identity.IsAuthenticated)
+                {
+                <li>
+                    <a href="@Url.Action("Index", "Home")"><i class="fa fa-tachometer"></i><span> Dashboard</span></a>
+                </li>
+                }
+                @if (User.IsInRole("SuperAdministrator"))
+                {
+                    <li>
+                        <a href="@Url.Action("ManageRoles", "Admin")"><i class="fa fa-balance-scale"></i><span> Administrator</span></a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index", "Projects")"><i class="fa fa-wrench"></i><span>New Project</span></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="@Url.Action("Index", "Tickets")"><i class="fa fa-address-card"></i><span>Tickets</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+                @if (User.IsInRole("ProjectManager"))
+                {
+                    <li>
+                        <a href="@Url.Action("ManageAssignments", "Projects")"><i class="fa fa-chain"></i><span> Project Manager</span></a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index", "Projects")"><i class="fa fa-wrench"></i><span>New Project</span></a>
+                        @*<ul class="dropdown-menu">
+                            </ul>*@
+                    </li>
+                    <li>
+                        <a href="@Url.Action("TicketsIndex", "Projects")"><i class="fa fa-address-card"></i><span>Tickets</span></a>
+                    </li>
+                }
+                @if (User.IsInRole("Submitter"))
+                {
+                    <li>
+                        <a href="@Url.Action("Create", "Tickets")"><i class="fa fa-address-card"></i><span>New Ticket</span></a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("TicketsIndex", "Submitter")"><i class="fa fa-address-book"></i><span>Tickets</span></a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("ProjectIndex", "Submitter")"><i class="fa fa-bomb"></i><span>Tickets</span></a>
+                    </li>
+                }
+                @if (User.IsInRole("Developer"))
+                {
+                    <li>
+                        <a href="@Url.Action("Create", "Tickets")"><i class="fa fa-address-card"></i><span>New Ticket</span></a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("TicketsIndex", "Developer")"><i class="fa fa-address-book"></i><span>Tickets</span></a>
+                    </li>
+                }
+            </ul>
+            <!-- //sidebar nav end -->
+            <!-- toggle button start -->
+            <a class="toggle-btn">
+                <i class="fa fa-angle-double-left menu-collapsed__left"><span>Collapse Sidebar</span></i>
+                <i class="fa fa-angle-double-right menu-collapsed__right"></i>
+            </a>
+            <!-- //toggle button end -->
+        </div>
+    </div>
+    <div class="header sticky-header">
+        <!-- notification menu start -->
+        <div class="menu-right">
+            <div class="navbar user-panel-top" style="background-color: #262626">
+                <div class="search-box mx-2">
+                    <form action="#search-results.html" method="get">
+                        <input class="search-input" placeholder="Search Here..." type="search" id="search">
+                        <button class="search-submit" value=""><span class="fa fa-search"></span></button>
+                    </form>
+                </div>
+                <div class="user-dropdown-details d-flex">
+                    <div class="profile_details_left">
+                        <ul class="nofitications-dropdown">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa fa-bell-o"></i><span class="badge blue">3</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <div class="notification_header">
+                                            <h3>You have 3 new notifications</h3>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="grid">
+                                            <div class="user_img"><img src="assets/images/avatar1.jpg" alt=""></div>
+                                            <div class="notification_desc">
+                                                <p>Johnson purchased template</p>
+                                                <span>Just Now</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="odd">
+                                        <a href="#" class="grid">
+                                            <div class="user_img"><img src="assets/images/avatar2.jpg" alt=""></div>
+                                            <div class="notification_desc">
+                                                <p>New customer registered </p>
+                                                <span>1 hour ago</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="grid">
+                                            <div class="user_img"><img src="assets/images/avatar3.jpg" alt=""></div>
+                                            <div class="notification_desc">
+                                                <p>Lorem ipsum dolor sit amet </p>
+                                                <span>2 hours ago</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <div class="notification_bottom">
+                                            <a href="#all" class="bg-primary">See all notifications</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa fa-comment-o"></i><span class="badge blue">4</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <div class="notification_header">
+                                            <h3>You have 4 new messages</h3>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="grid">
+                                            <div class="user_img"><img src="assets/images/avatar1.jpg" alt=""></div>
+                                            <div class="notification_desc">
+                                                <p>Johnson purchased template</p>
+                                                <span>Just Now</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="odd">
+                                        <a href="#" class="grid">
+                                            <div class="user_img"><img src="assets/images/avatar2.jpg" alt=""></div>
+                                            <div class="notification_desc">
+                                                <p>New customer registered </p>
+                                                <span>1 hour ago</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="grid">
+                                            <div class="user_img"><img src="assets/images/avatar3.jpg" alt=""></div>
+                                            <div class="notification_desc">
+                                                <p>Lorem ipsum dolor sit amet </p>
+                                                <span>2 hours ago</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="grid">
+                                            <div class="user_img"><img src="assets/images/avatar1.jpg" alt=""></div>
+                                            <div class="notification_desc">
+                                                <p>Johnson purchased template</p>
+                                                <span>Just Now</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <div class="notification_bottom">
+                                            <a href="#all" class="bg-primary">See all messages</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="profile_details">
+                        <ul>
+                            <li class="dropdown profile_details_drop">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="dropdownMenu3" aria-haspopup="true"
+                                   aria-expanded="false">
+                                    <div class="profile_img">
+                                        <img src="assets/images/profileimg.jpg" class="rounded-circle" alt="" />
+                                        <div class="user-active">
+                                            <span></span>
+                                        </div>
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu drp-mnu" aria-labelledby="dropdownMenu3">
+                                    <li class="user-info">
+                                        <h5 class="user-name">John Deo</h5>
+                                        <span class="status ml-2">Available</span>
+                                    </li>
+                                    <li> <a href="#"><i class="lnr lnr-user"></i>My Profile</a> </li>
+                                    <li> <a href="#"><i class="lnr lnr-users"></i>1k Followers</a> </li>
+                                    <li> <a href="#"><i class="lnr lnr-cog"></i>Setting</a> </li>
+                                    <li> <a href="#"><i class="lnr lnr-heart"></i>100 Likes</a> </li>
+                                    <li class="logout"> <a href="#sign-up.html"><i class="fa fa-power-off"></i> Logout</a> </li>
+                                </ul>
+                            </li>
+                            <li>
+                                @Html.ActionLink("Hi " + ViewData["FirstName"], "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                            </li>
+                            <li>@Html.ActionLink("LogOff", "LogOff", "Account")</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    @RenderBody()
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    @*<script src="assets/js/jquery-3.3.1.min.js"></script>
+        <script src="assets/js/jquery-1.10.2.min.js"></script>*@
+
+    <!-- chart js -->
+    @*<script src="assets/js/Chart.min.js"></script>*@
+    <script src="~/Scripts/Chart.min.js"></script>
+
+    @*<script src="assets/js/utils.js"></script>*@
+    <script src="~/Scripts/utils.js"></script>
+
+    <!-- //chart js -->
+    <!-- Different scripts of charts.  Ex.Barchart, Linechart -->
+    @*<script src="assets/js/bar.js"></script>*@
+    <script src="~/Scripts/bar.js"></script>
+
+    @*<script src="assets/js/linechart.js"></script>*@
+    <script src="~/Scripts/linechart.js"></script>
+    <!-- //Different scripts of charts.  Ex.Barchart, Linechart -->
+    @*<script src="assets/js/jquery.nicescroll.js"></script>*@
+    <script src="~/Scripts/jquery.nicescroll.js"></script>
+
+    @*<script src="assets/js/scripts.js"></script>*@
+    <script src="~/Scripts/scripts.js"></script>
+    <!-- close script -->
+
+    <script src="~/Scripts/modernizr.js"></script>
+    @*<script src="~/Scripts/bootstrap1.min.js"></script>
+        <script src="~/Scripts/jquery-3.2.1.min.js"></script>
+        <script src="~/Scripts/popper.min.js"></script>
+        <script src="~/Scripts/bootstrap.min2.js"></script>
+        <script src="~/Scripts/main.js"></script>*@
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+</body>
+</html>
